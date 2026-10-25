@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Summary - Interview Check{% endblock %}
+{% block content %}
+<div class="head">
+  <h1>Summary</h1>
+  <a class="btn" href="{{ url_for('export_csv') }}">Export CSV</a>
+</div>
+<p class="muted">{{ total }} interview{{ '' if total == 1 else 's' }}
+{% for r in by_role %} &middot; {{ r.n }} {{ r.role }}{% endfor %}</p>
+<h2>How often each problem was mentioned</h2>
+<div class="bars">
+  {% for label, n in rows %}
+  <div class="bar-row">
+    <span class="bar-label">{{ label }}</span>
+    <span class="bar-track"><span class="bar-fill" style="width: {{ (n / total * 100) if total else 0 }}%"></span></span>
+    <span class="bar-n">{{ n }} / {{ total }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
