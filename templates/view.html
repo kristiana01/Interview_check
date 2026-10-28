@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ i.respondent }} - Interview Check{% endblock %}
+{% block content %}
+<div class="head">
+  <div>
+    <span class="role role-{{ i.role|lower }}">{{ i.role }}</span>
+    <h1>{{ i.respondent }}</h1>
+    <p class="muted">{{ i.company or 'No company' }} &middot; {{ i.held_on }}</p>
+  </div>
+  <div class="newbtns">
+    <a class="btn" href="{{ url_for('edit', interview_id=i.id) }}">Edit</a>
+    <a class="btn" href="{{ url_for('export_txt', interview_id=i.id) }}">Export TXT</a>
+    <a class="btn danger" href="{{ url_for('delete', interview_id=i.id) }}">Delete</a>
+  </div>
+</div>
+{% if tags %}<div class="tags">{% for t in tags %}<a class="tag" href="{{ url_for('index', tag=t) }}">{{ TAG_LABELS[t] }}</a>{% endfor %}</div>{% endif %}
+<section class="qa">
+  {% for a in answers %}
+  <article><h3>{{ a.position }}. {{ a.question }}</h3><p>{{ a.answer or '-' }}</p></article>
+  {% endfor %}
+</section>
+{% if i.notes %}<h2>Notes</h2><p>{{ i.notes }}</p>{% endif %}
+<p><a href="{{ url_for('index') }}">&larr; Back to all interviews</a></p>
+{% endblock %}

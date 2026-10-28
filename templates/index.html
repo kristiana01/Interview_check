@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="head">
+  <h1>Interviews</h1>
+  <div class="newbtns">
+    <span class="muted">New interview as</span>
+    {% for r in ROLES %}<a class="btn" href="{{ url_for('new', role=r) }}">{{ r }}</a>{% endfor %}
+  </div>
+</div>
+{% if rows %}
+<div class="cards">
+  {% for i in rows %}
+  <a class="card" href="{{ url_for('view', interview_id=i.id) }}">
+    <span class="role role-{{ i.role|lower }}">{{ i.role }}</span>
+    <h2>{{ i.respondent }}</h2>
+    <p class="muted">{{ i.company or 'No company' }} &middot; {{ i.held_on }}</p>
+    <p class="small">{{ counts.get(i.id, 0) }} problem{{ '' if counts.get(i.id, 0) == 1 else 's' }} marked</p>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty"><h2>No interviews found</h2><p>Choose a role above to record the first interview.</p></div>
+{% endif %}
+{% endblock %}

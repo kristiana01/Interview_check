@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Delete interview - Interview Check{% endblock %}
+{% block content %}
+<div class="confirm">
+  <h1>Delete this interview?</h1>
+  <p><b>{{ i.respondent }}</b> ({{ i.role }}, {{ i.held_on }}) and all answers will be removed. This cannot be undone.</p>
+  <form method="post" class="actions">
+    <button class="btn danger">Yes, delete</button>
+    <a class="btn" href="{{ url_for('view', interview_id=i.id) }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

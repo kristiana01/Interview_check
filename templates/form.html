@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ 'New' if mode == 'new' else 'Edit' }} interview - Interview Check{% endblock %}
+{% block content %}
+<h1>{{ 'New interview' if mode == 'new' else 'Edit interview' }} <span class="role role-{{ role|lower }}">{{ role }}</span></h1>
+<form method="post" class="form">
+  <input type="hidden" name="role" value="{{ role }}">
+  <div class="grid3">
+    <label>Respondent (name or code)<input name="respondent" value="{{ data.respondent }}" required></label>
+    <label>Company<input name="company" value="{{ data.company }}"></label>
+    <label>Date<input type="date" name="held_on" value="{{ data.held_on }}" required></label>
+  </div>
+  <h2>Questions</h2>
+  {% for q in questions %}
+  <label class="q"><span><b>{{ loop.index }}.</b> {{ q }}</span>
+    <textarea name="answer_{{ loop.index0 }}" rows="4">{{ data.answers[loop.index0] }}</textarea></label>
+  {% endfor %}
+  <h2>Problems mentioned</h2>
+  <div class="tags">
+    {% for k, label in PROBLEM_TAGS %}
+    <label class="chk"><input type="checkbox" name="tags" value="{{ k }}" {{ 'checked' if k in data.tags }}> {{ label }}</label>
+    {% endfor %}
+  </div>
+  <label>Notes<textarea name="notes" rows="3">{{ data.notes }}</textarea></label>
+  <div class="actions">
+    <button class="btn primary">Save</button>
+    <a class="btn" href="{{ url_for('index') if mode == 'new' else url_for('view', interview_id=i.id) }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
